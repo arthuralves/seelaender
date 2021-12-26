@@ -25,8 +25,12 @@ export default {
   },
   decode: async (token) => {
     try {
+      console.log(token)
       const { _id } = await jwt.verify(token, 'seel@aenderkey');
+      console.log(_id);
       const user = await models.Usuario.findOne({ _id, ativo: true });
+      console.log('user')
+      console.log(user)
       if (user) {
         return user;
       } else {

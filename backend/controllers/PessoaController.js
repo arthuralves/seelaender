@@ -2,7 +2,7 @@ import models from '../models';
 export default {
   add: async (req, res, next) => {
     try {
-      const reg = await models.Produto.create(req.body);
+      const reg = await models.Pessoa.create(req.body);
       res.status(200).json(reg);
     } catch (e) {
       res.status(500).send({
@@ -13,8 +13,7 @@ export default {
   },
   query: async (req, res, next) => {
     try {
-      const reg = await models.Produto.findOne({ _id: req.query._id })
-        .populate('categoria', { nome: 1 });
+      const reg = await models.Pessoa.findOne({ _id: req.query._id });
       if (!reg) {
         res.status(404).send({
           message: 'O registro não existe'
@@ -29,29 +28,36 @@ export default {
       next(e);
     }
   },
-  queryCodigo: async (req, res, next) => {
+  list: async (req, res, next) => {
     try {
-      const reg = await models.Produto.findOne({ codigo: req.query.codigo })
-        .populate('categoria', { nome: 1 });
-      if (!reg) {
-        res.status(404).send({
-          message: 'El registro no existe'
-        });
-      } else {
-        res.status(200).json(reg);
-      }
+      let valor = req.query.valor;
+      const reg = await models.Pessoa.find({ $or: [{ 'nome': new RegExp(valor, 'i') }, { 'email': new RegExp(valor, 'i') }] }, { createdAt: 0 })
+        .sort({ 'createdAt': -1 });
+      res.status(200).json(reg);
     } catch (e) {
       res.status(500).send({
-        message: 'Ocurrió un error'
+        message: 'Ocorreu um erro'
       });
       next(e);
     }
   },
-  list: async (req, res, next) => {
+  listClientes: async (req, res, next) => {
     try {
       let valor = req.query.valor;
-      const reg = await models.Produto.find({ $or: [{ 'nome': new RegExp(valor, 'i') }, { 'descricao': new RegExp(valor, 'i') }] }, { createdAt: 0 })
-        .populate('categoria', { nome: 1 })
+      const reg = await models.Pessoa.find({ $or: [{ 'nome': new RegExp(valor, 'i') }, { 'email': new RegExp(valor, 'i') }], 'tipo_pessoa': 'Cliente' }, { createdAt: 0 })
+        .sort({ 'createdAt': -1 });
+      res.status(200).json(reg);
+    } catch (e) {
+      res.status(500).send({
+        message: 'Ocorreu um erro'
+      });
+      next(e);
+    }
+  },
+  listFornecedores: async (req, res, next) => {
+    try {
+      let valor = req.query.valor;
+      const reg = await models.Pessoa.find({ $or: [{ 'nome': new RegExp(valor, 'i') }, { 'email': new RegExp(valor, 'i') }], 'tipo_pessoa': 'Fornecedor' }, { createdAt: 0 })
         .sort({ 'createdAt': -1 });
       res.status(200).json(reg);
     } catch (e) {
@@ -63,7 +69,11 @@ export default {
   },
   update: async (req, res, next) => {
     try {
-      const reg = await models.Produto.findByIdAndUpdate({ _id: req.body._id }, { categoria: req.body.categoria, codigo: req.body.codigo, nome: req.body.nome, descricao: req.body.descricao, preco_venda: req.body.preco_venda, stock: req.body.stock });
+      const reg = await models.Pessoa.findByIdAndUpdate({ _id: req.body._id }, {
+        tipo_pessoa: req.body.tipo_pessoa,
+        nome: req.body.nome,
+        email: req.body.email
+      });
       res.status(200).json(reg);
     } catch (e) {
       res.status(500).send({
@@ -74,7 +84,7 @@ export default {
   },
   remove: async (req, res, next) => {
     try {
-      const reg = await models.Produto.findByIdAndDelete({ _id: req.body._id });
+      const reg = await models.Pessoa.findByIdAndDelete({ _id: req.body._id });
       res.status(200).json(reg);
     } catch (e) {
       res.status(500).send({
@@ -85,7 +95,7 @@ export default {
   },
   activate: async (req, res, next) => {
     try {
-      const reg = await models.Produto.findByIdAndUpdate({ _id: req.body._id }, { ativo: true });
+      const reg = await models.Pessoa.findByIdAndUpdate({ _id: req.body._id }, { ativo: true });
       res.status(200).json(reg);
     } catch (e) {
       res.status(500).send({
@@ -96,7 +106,7 @@ export default {
   },
   deactivate: async (req, res, next) => {
     try {
-      const reg = await models.Produto.findByIdAndUpdate({ _id: req.body._id }, { ativo: false });
+      const reg = await models.Pessoa.findByIdAndUpdate({ _id: req.body._id }, { ativo: false });
       res.status(200).json(reg);
     } catch (e) {
       res.status(500).send({
