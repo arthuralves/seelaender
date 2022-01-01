@@ -1,154 +1,157 @@
 <template>
   <v-app id="app">
     <v-navigation-drawer
-      v-model="drawer"
-      :clipped="$vuetify.breakpoint.lgAndUp"
+      fixed
+      :clipped="$vuetify.breakpoint.mdAndUp"
       app
+      v-model="drawer"
     >
       <v-list dense>
         <template>
-          <v-list-item :to="{ name: 'home' }">
-            <v-list-item-action>
+          <v-list-tile :to="{ name: 'home' }">
+            <v-list-tile-action>
               <v-icon>home</v-icon>
-            </v-list-item-action>
-            <v-list-item-title> Inicio </v-list-item-title>
-          </v-list-item>
+            </v-list-tile-action>
+            <v-list-tile-title> Inicio </v-list-tile-title>
+          </v-list-tile>
         </template>
         <template>
           <v-list-group>
-            <v-list-item slot="activator">
-              <v-list-item-content>
-                <v-list-item-title> Armazem </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: 'categoria' }">
-              <v-list-item-action>
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title> Armazém </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: 'categoria' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Categorias </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: '' }">
-              <v-list-item-action>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Categorias </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: '' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Produtos </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Produtos </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list-group>
         </template>
         <template>
           <v-list-group>
-            <v-list-item slot="activator">
-              <v-list-item-content>
-                <v-list-item-title> Compras </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: '' }">
-              <v-list-item-action>
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title> Compras </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: '' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Compras </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: '' }">
-              <v-list-item-action>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Entradas </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: '' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Fornecedores </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Fornecedores </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list-group>
         </template>
         <template>
           <v-list-group>
-            <v-list-item slot="activator">
-              <v-list-item-content>
-                <v-list-item-title> Vendas </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: '' }">
-              <v-list-item-action>
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title> Vendas </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: '' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Vendas </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: '' }">
-              <v-list-item-action>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Vendas </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: '' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Clientes </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Clientes </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list-group>
         </template>
         <template>
           <v-list-group>
-            <v-list-item slot="activator">
-              <v-list-item-content>
-                <v-list-item-title> Acessos </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: '' }">
-              <v-list-item-action>
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title> Acessos </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: '' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Usuários </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Usuários </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list-group>
         </template>
         <template>
           <v-list-group>
-            <v-list-item slot="activator">
-              <v-list-item-content>
-                <v-list-item-title> Consultas </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: '' }">
-              <v-list-item-action>
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title> Consultas </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: '' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Consulta Compras </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :to="{ name: '' }">
-              <v-list-item-action>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Consulta Compras </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ name: '' }">
+              <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title> Consulta Vendas </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title> Consulta Ventas </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list-group>
         </template>
       </v-list>
     </v-navigation-drawer>
-
-    <v-app-bar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      app
+    <v-toolbar
       color="blue darken-3"
       dark
+      app
+      :clipped-left="$vuetify.breakpoint.mdAndUp"
+      fixed
     >
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <span class="hidden-sm-and-down">Sistema</span>
+        <v-toolbar-side-icon
+          @click.stop="drawer = !drawer"
+        ></v-toolbar-side-icon>
+        <span class="hidden-sm-and-down">Armazém do Teg</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
-        <v-icon>logout</v-icon>
+        <v-icon>apps</v-icon>
       </v-btn>
-    </v-app-bar>
+    </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
         <v-slide-y-transition mode="out-in">
@@ -156,12 +159,13 @@
         </v-slide-y-transition>
       </v-container>
     </v-content>
-    <v-footer height="auto">
+
+    <v-footer dark height="auto">
       <v-layout justify-center>
         <v-flex text-xs-center>
           <v-card flat tile color="primary" class="white--text">
             <v-card-text class="white--text pt-0">
-              Arthur Alves &copy;2022
+              Made with love by Arthur Alves &copy;2022
             </v-card-text>
           </v-card>
         </v-flex>
@@ -175,7 +179,7 @@ export default {
   name: "App",
   data() {
     return {
-      drawer: true,
+      drawer: null,
     };
   },
 };

@@ -53,6 +53,8 @@ export default {
   },
   remove: async (req, res, next) => {
     try {
+      console.log('back')
+      console.log(req.body._id)
       const reg = await models.Categoria.findByIdAndDelete({ _id: req.body._id });
       res.status(200).json(reg);
     } catch (e) {
