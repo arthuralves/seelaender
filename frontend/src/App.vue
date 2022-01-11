@@ -165,7 +165,7 @@
         <v-flex text-xs-center>
           <v-card flat tile color="primary" class="white--text">
             <v-card-text class="white--text pt-0">
-              Made with love by Arthur Alves &copy;2022
+              Made with ❤️ by Arthur Alves &copy;2022
             </v-card-text>
           </v-card>
         </v-flex>
