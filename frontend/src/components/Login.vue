@@ -3,7 +3,7 @@
     <v-flex xs12 sm8 md6 lg5 xl4>
       <v-card>
         <v-toolbar dark color="blue darken-3">
-          <v-toolbar-title> Acceso al Sistema </v-toolbar-title>
+          <v-toolbar-title> Acesso ao Sistema </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
           <v-text-field
@@ -28,7 +28,7 @@
         </v-card-text>
         <v-card-actions class="px-3 pb-3">
           <v-flex text-xs-right>
-            <v-btn @click="ingresar()" color="primary">Ingresar</v-btn>
+            <v-btn @click="ingresar()" color="primary">Acessar</v-btn>
           </v-flex>
         </v-card-actions>
       </v-card>
@@ -61,10 +61,9 @@ export default {
           console.log(error);
           this.errorM = null;
           if (error.response.status == 404) {
-            this.errorM =
-              "No existe el usuario o las credenciales son incorrectas.";
+            this.errorM = "Não existe o usuário ou a senha está incorreta.";
           } else {
-            this.errorM = "Ocurrió un error con el servidor.";
+            this.errorM = "Ocorreu um erro no servidor.";
           }
         });
     },
