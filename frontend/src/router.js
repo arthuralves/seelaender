@@ -1,31 +1,71 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 import Home from './views/Home.vue'
 import Categoria from './components/Categoria.vue'
+import Login from './components/Login.vue'
+
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        administrador: true,
+        estoque: true,
+        vendedor: true
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+      meta: {
+        libre: true
+      }
     },
     {
       path: '/categoria',
       name: 'categoria',
-      component: Categoria
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: Categoria,
+      meta: {
+        administrador: true,
+        estoque: true
+      }
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+
+  if (to.matched.some(record => record.meta.libre)) {
+    next();
+  }
+  //  else if (store.state.usuario) {
+  //   console.log('entrooo')
+  //   console.log(store.state.usuario.role)
+  //   next()
+  // }
+  else if (store.state.usuario && store.state.usuario.role == 'Administrador') {
+    if (to.matched.some(record => record.meta.administrador)) {
+      next();
+    }
+  } else if (store.state.usuario && store.state.usuario.role == 'Vendedor') {
+    if (to.matched.some(record => record.meta.vendedor)) {
+      next();
+    }
+  } else if (store.state.usuario && store.state.usuario.role == 'Estoque') {
+    if (to.matched.some(record => record.meta.estoque)) {
+      next();
+    }
+  } else {
+    console.log(store.state.usuario)
+    next({ name: 'login' });
+  }
+})
+export default router
