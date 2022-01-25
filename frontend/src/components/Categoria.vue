@@ -200,12 +200,14 @@ export default {
   methods: {
     listar() {
       let me = this;
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
       axios
-        .get("categoria/list")
-        .then(function (response) {
+        .get("categoria/list", configuracion)
+        .then(function(response) {
           me.categorias = response.data;
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     },
@@ -237,38 +239,48 @@ export default {
     },
     salvar() {
       let me = this;
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
       if (this.validar()) {
         return;
       }
       if (this.editedIndex > -1) {
         //Código para editar
         axios
-          .put("categoria/update", {
-            _id: this._id,
-            nome: this.nome,
-            descricao: this.descricao,
-          })
-          .then(function (response) {
+          .put(
+            "categoria/update",
+            {
+              _id: this._id,
+              nome: this.nome,
+              descricao: this.descricao,
+            },
+            configuracion
+          )
+          .then(function(response) {
             me.limpiar();
             me.close();
             me.listar();
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error);
           });
       } else {
         //Código para salvar
         axios
-          .post("categoria/add", {
-            nome: this.nome,
-            descricao: this.descricao,
-          })
-          .then(function (response) {
+          .post(
+            "categoria/add",
+            {
+              nome: this.nome,
+              descricao: this.descricao,
+            },
+            configuracion
+          )
+          .then(function(response) {
             me.limpiar();
             me.close();
             me.listar();
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error);
           });
       }
@@ -313,31 +325,35 @@ export default {
     },
     activar() {
       let me = this;
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
       axios
-        .put("categoria/activate", { _id: this.adId })
-        .then(function (response) {
+        .put("categoria/activate", { _id: this.adId }, configuracion)
+        .then(function(response) {
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
           me.adId = "";
           me.listar();
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     },
     desactivar() {
       let me = this;
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
       axios
-        .put("categoria/deactivate", { _id: this.adId })
-        .then(function (response) {
+        .put("categoria/deactivate", { _id: this.adId }, configuracion)
+        .then(function(response) {
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
           me.adId = "";
           me.listar();
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     },
@@ -345,12 +361,12 @@ export default {
       let me = this;
       axios
         .post("categoria/remove", { _id: me.adId })
-        .then(function (response) {
+        .then(function(response) {
           me.adModalDel = 0;
           me.adId = "";
           me.listar();
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     },
