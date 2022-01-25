@@ -148,8 +148,11 @@
         <span class="hidden-sm-and-down">Armazém do Teg</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>apps</v-icon>
+      <v-btn @click="logout()" icon v-if="logged">
+        <v-icon>logout</v-icon> Salir
+      </v-btn>
+      <v-btn :to="{ name: 'login' }" icon v-else>
+        <v-icon>login</v-icon> Login
       </v-btn>
     </v-toolbar>
     <v-content>
@@ -179,8 +182,39 @@ export default {
   name: "App",
   data() {
     return {
-      drawer: null,
+      drawer: true,
     };
+  },
+  computed: {
+    logged() {
+      return this.$store.state.usuario;
+    },
+    isAdministrador() {
+      return (
+        this.$store.state.usuario &&
+        this.$store.state.usuario.role == "Administrador"
+      );
+    },
+    isEstoque() {
+      return (
+        this.$store.state.usuario && this.$store.state.usuario.role == "Estoque"
+      );
+    },
+    isVendedor() {
+      return (
+        this.$store.state.usuario &&
+        this.$store.state.usuario.role == "Vendedor"
+      );
+    },
+  },
+  created() {
+    this.$store.dispatch("autoLogin");
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    },
   },
 };
 </script>
+
