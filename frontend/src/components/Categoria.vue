@@ -5,15 +5,10 @@
         <v-toolbar-title>Categorias</v-toolbar-title>
         <v-divider class="mx-2" inset vertical></v-divider>
         <v-spacer></v-spacer>
-        <v-text-field
-          class="text-xs-center"
-          v-model="search"
-          append-icon="search"
-          label="Filtro"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-text-field class="text-xs-center" v-model="search" append-icon="search" label="Filtro" single-line hide-details></v-text-field>
         <v-spacer></v-spacer>
+
+        <!-- CARD NOVO -->
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">Novo</v-btn>
@@ -29,18 +24,10 @@
                     <v-text-field v-model="nome" label="Nome"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field
-                      v-model="descricao"
-                      label="Descrição"
-                    ></v-text-field>
+                    <v-text-field v-model="descricao" label="Descrição"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12 v-show="valida">
-                    <div
-                      class="red--text"
-                      v-for="v in validaMensaje"
-                      :key="v"
-                      v-text="v"
-                    ></div>
+                    <div class="red--text" v-for="v in validaMensaje" :key="v" v-text="v"></div>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -52,59 +39,43 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+        <!-- CARD ATIVA DESATIVA -->
         <v-dialog v-model="adModal" max-width="290">
           <v-card>
             <v-card-title class="headline" v-if="adAccion == 1">
-              Activar Item
+              Ativar Item
             </v-card-title>
             <v-card-title class="headline" v-if="adAccion == 2">
-              Desactivar Item
+              Desativar Item
             </v-card-title>
             <v-card-text>
-              Estás a punto de <span v-if="adAccion == 1">activar </span>
-              <span v-if="adAccion == 2">desactivar </span> el item
+              Você deseja <span v-if="adAccion == 1">ativar </span> <span v-if="adAccion == 2">desativar </span> o item
               {{ adNombre }}
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                @click="activarDesactivarCerrar()"
-                color="green darken-1"
-                flat="flat"
-              >
+              <v-btn @click="activarDesactivarCerrar()" color="green darken-1" flat="flat">
                 Cancelar
               </v-btn>
-              <v-btn
-                v-if="adAccion == 1"
-                @click="activar()"
-                color="orange darken-4"
-                flat="flat"
-              >
-                Activar
+              <v-btn v-if="adAccion == 1" @click="activar()" color="orange darken-4" flat="flat">
+                Ativar
               </v-btn>
-              <v-btn
-                v-if="adAccion == 2"
-                @click="desactivar()"
-                color="orange darken-4"
-                flat="flat"
-              >
-                Desactivar
+              <v-btn v-if="adAccion == 2" @click="desactivar()" color="orange darken-4" flat="flat">
+                Desativar
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
 
+        <!-- CARD EXCLUSAO -->
         <v-dialog v-model="adModalDel" max-width="290">
           <v-card>
             <v-card-title class="headline"> Excluir item </v-card-title>
             <v-card-text> Deseja excluir esse item? </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                @click="fecharModalDel()"
-                color="green darken-1"
-                flat="flat"
-              >
+              <v-btn @click="fecharModalDel()" color="green darken-1" flat="flat">
                 Cancelar
               </v-btn>
               <v-btn @click="deletar()" color="orange darken-4" flat="flat">
@@ -114,12 +85,9 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
-      <v-data-table
-        :headers="headers"
-        :items="categorias"
-        :search="search"
-        class="elevation-1"
-      >
+
+      <!-- DATA TABLE -->
+      <v-data-table :headers="headers" :items="categorias" :search="search" class="elevation-1">
         <template v-slot:items="props">
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)">
@@ -166,7 +134,7 @@ export default {
       search: "",
       categorias: [],
       headers: [
-        { text: "Opções", value: "opcoes", sortable: false },
+        { text: "Opções", value: "opcoes", sortable: false, class: "justify-center" },
         { text: "Nome", value: "nome", sortable: true },
         { text: "Descrição", value: "descricao", sortable: false },
         { text: "Ativo", value: "ativo", sortable: false },
@@ -223,14 +191,10 @@ export default {
       this.valida = 0;
       this.validaMensaje = [];
       if (this.nome.length < 1 || this.nome.length > 50) {
-        this.validaMensaje.push(
-          "O nome da categoria deve ter entre 1-50 caractéres."
-        );
+        this.validaMensaje.push("O nome da categoria deve ter entre 1-50 caractéres.");
       }
       if (this.descricao.length > 255) {
-        this.validaMensaje.push(
-          "A descricao da categoria não deve ter mais de 255 caractéres."
-        );
+        this.validaMensaje.push("A descricao da categoria não deve ter mais de 255 caractéres.");
       }
       if (this.validaMensaje.length) {
         this.valida = 1;

@@ -2,21 +2,16 @@
   <v-layout align-start>
     <v-flex>
       <v-toolbar flat color="white">
-        <v-toolbar-title>Usuarios</v-toolbar-title>
+        <v-toolbar-title>Usuários</v-toolbar-title>
         <v-divider class="mx-2" inset vertical></v-divider>
         <v-spacer></v-spacer>
-        <v-text-field
-          class="text-xs-center"
-          v-model="search"
-          append-icon="search"
-          label="Búsqueda"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-text-field class="text-xs-center" v-model="search" append-icon="search" label="Filtro" single-line hide-details></v-text-field>
         <v-spacer></v-spacer>
+
+        <!-- CARD NOVO -->
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-on="on">Novo</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -26,54 +21,19 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md6>
-                    <v-text-field v-model="nombre" label="Nombre">
-                    </v-text-field>
+                    <v-text-field v-model="nome" label="Nome"> </v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
-                    <v-select v-model="rol" :items="roles" label="Rol">
-                    </v-select>
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-select
-                      v-model="tipo_documento"
-                      :items="documentos"
-                      label="Tipo Documento"
-                    >
-                    </v-select>
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-text-field
-                      v-model="num_documento"
-                      label="Número Documento"
-                    >
-                    </v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-text-field v-model="direccion" label="Dirección">
-                    </v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-text-field v-model="telefono" label="Teléfono">
-                    </v-text-field>
+                    <v-select v-model="role" :items="roles" label="Papel"> </v-select>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
                     <v-text-field v-model="email" label="Email"> </v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
-                    <v-text-field
-                      type="password"
-                      v-model="password"
-                      label="Password"
-                    >
-                    </v-text-field>
+                    <v-text-field type="password" v-model="password" label="Password"> </v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12 v-show="valida">
-                    <div
-                      class="red--text"
-                      v-for="v in validaMensaje"
-                      :key="v"
-                      v-text="v"
-                    ></div>
+                    <div class="red--text" v-for="v in validaMensaje" :key="v" v-text="v"></div>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -81,64 +41,68 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-              <v-btn color="blue darken-1" flat @click="guardar">Guardar</v-btn>
+              <v-btn color="blue darken-1" flat @click="salvar">Salvar</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+        <!-- CARD ATIVA DESATIVA -->
         <v-dialog v-model="adModal" max-width="290">
           <v-card>
             <v-card-title class="headline" v-if="adAccion == 1">
-              Activar Item
+              Ativar Item
             </v-card-title>
             <v-card-title class="headline" v-if="adAccion == 2">
-              Desactivar Item
+              Desativar Item
             </v-card-title>
             <v-card-text>
-              Estás a punto de <span v-if="adAccion == 1">activar </span>
-              <span v-if="adAccion == 2">desactivar </span> el item
+              Você deseja <span v-if="adAccion == 1">ativar </span> <span v-if="adAccion == 2">desativar </span> o item
               {{ adNombre }}
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                @click="activarDesactivarCerrar()"
-                color="green darken-1"
-                flat="flat"
-              >
+              <v-btn @click="activarDesactivarCerrar()" color="green darken-1" flat="flat">
                 Cancelar
               </v-btn>
-              <v-btn
-                v-if="adAccion == 1"
-                @click="activar()"
-                color="orange darken-4"
-                flat="flat"
-              >
-                Activar
+              <v-btn v-if="adAccion == 1" @click="activar()" color="orange darken-4" flat="flat">
+                Ativar
               </v-btn>
-              <v-btn
-                v-if="adAccion == 2"
-                @click="desactivar()"
-                color="orange darken-4"
-                flat="flat"
-              >
-                Desactivar
+              <v-btn v-if="adAccion == 2" @click="desactivar()" color="orange darken-4" flat="flat">
+                Desativar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <!-- CARD EXCLUSAO -->
+        <v-dialog v-model="adModalDel" max-width="290">
+          <v-card>
+            <v-card-title class="headline"> Excluir item </v-card-title>
+            <v-card-text> Deseja excluir esse item? </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn @click="fecharModalDel()" color="green darken-1" flat="flat">
+                Cancelar
+              </v-btn>
+              <v-btn @click="deletar()" color="orange darken-4" flat="flat">
+                Excluir
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
-      <v-data-table
-        :headers="headers"
-        :items="usuarios"
-        :search="search"
-        class="elevation-1"
-      >
+
+      <!-- DATA TABLE -->
+      <v-data-table :headers="headers" :items="usuarios" :search="search" class="elevation-1">
         <template v-slot:items="props">
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)">
               edit
             </v-icon>
-            <template v-if="props.item.estado">
+            <v-icon small class="mr-2" @click="exibirModalDel(props.item)">
+              remove
+            </v-icon>
+            <template v-if="props.item.ativo">
               <v-icon small @click="activarDesactivarMostrar(2, props.item)">
                 block
               </v-icon>
@@ -149,19 +113,15 @@
               </v-icon>
             </template>
           </td>
-          <td>{{ props.item.nombre }}</td>
-          <td>{{ props.item.rol }}</td>
-          <td>{{ props.item.tipo_documento }}</td>
-          <td>{{ props.item.num_documento }}</td>
-          <td>{{ props.item.direccion }}</td>
-          <td>{{ props.item.telefono }}</td>
+          <td>{{ props.item.nome }}</td>
+          <td>{{ props.item.role }}</td>
           <td>{{ props.item.email }}</td>
           <td>
-            <div v-if="props.item.estado">
-              <span class="blue--text">Activo</span>
+            <div v-if="props.item.ativo">
+              <span class="blue--text">Ativo</span>
             </div>
             <div v-else>
-              <span class="red--text">Inactivo</span>
+              <span class="red--text">Desativado</span>
             </div>
           </td>
         </template>
@@ -181,21 +141,17 @@ export default {
       search: "",
       usuarios: [],
       headers: [
-        { text: "Opciones", value: "opciones", sortable: false },
-        { text: "Nombre", value: "nombre", sortable: true },
-        { text: "Rol", value: "rol", sortable: true },
-        { text: "Tipo Documento", value: "tipo_documento", sortable: true },
-        { text: "Número Documento", value: "num_documento", sortable: false },
-        { text: "Dirección", value: "direccion", sortable: false },
-        { text: "Teléfono", value: "telefono", sortable: false },
+        { text: "Opções", value: "opcoes", sortable: false },
+        { text: "Nome", value: "nome", sortable: true },
+        { text: "Papel", value: "role", sortable: true },
         { text: "Email", value: "email", sortable: false },
-        { text: "Estado", value: "estado", sortable: false },
+        { text: "Ativo", value: "ativo", sortable: false },
       ],
       editedIndex: -1,
       _id: "",
       nombre: "",
       rol: "",
-      roles: ["Administrador", "Almacenero", "Vendedor"],
+      roles: ["Administrador", "Estoque", "Vendedor"],
       tipo_documento: "",
       documentos: ["DNI", "RUC", "PASAPORTE", "CEDULA"],
       num_documento: "",
@@ -230,7 +186,7 @@ export default {
       let header = { Token: this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .get("usuario/list", configuracion)
+        .get("usuarios/list", configuracion)
         .then(function(response) {
           me.usuarios = response.data;
         })
@@ -253,45 +209,24 @@ export default {
     validar() {
       this.valida = 0;
       this.validaMensaje = [];
-      if (!this.rol) {
-        this.validaMensaje.push("Seleccione un rol.");
+      if (!this.role) {
+        this.validaMensaje.push("Selecione um papel.");
       }
-      if (this.nombre.length < 1 || this.nombre.length > 50) {
-        this.validaMensaje.push(
-          "El nombre del usuario debe tener entre 1-50 caracteres."
-        );
+      if (this.nome.length < 1) {
+        this.validaMensaje.push("O nome de usuário deve ter mais de 1 caracter.");
       }
-      if (this.num_documento.length > 20) {
-        this.validaMensaje.push(
-          "El documento no debe tener más de 20 caracteres."
-        );
+      if (this.email.length < 1) {
+        this.validaMensaje.push("O email de usuário deve ter mais de 1 caracter.");
       }
-      if (this.direccion.length > 70) {
-        this.validaMensaje.push(
-          "La dirección no debe tener más de 70 caracteres."
-        );
-      }
-      if (this.telefono.length > 20) {
-        this.validaMensaje.push(
-          "El teléfono no debe tener más de 20 caracteres."
-        );
-      }
-      if (this.email.length < 1 || this.nombre.length > 50) {
-        this.validaMensaje.push(
-          "El email del usuario debe tener entre 1-50 caracteres."
-        );
-      }
-      if (this.password.length < 1 || this.nombre.length > 64) {
-        this.validaMensaje.push(
-          "El password del usuario debe tener entre 1-64 caracteres."
-        );
+      if (this.password.length < 1 || this.password.length > 64) {
+        this.validaMensaje.push("A senha deve ter entre 1-64 caracteres.");
       }
       if (this.validaMensaje.length) {
         this.valida = 1;
       }
       return this.valida;
     },
-    guardar() {
+    salvar() {
       let me = this;
       let header = { Token: this.$store.state.token };
       let configuracion = { headers: header };
@@ -302,15 +237,11 @@ export default {
         //Código para editar
         axios
           .put(
-            "usuario/update",
+            "usuarios/update",
             {
               _id: this._id,
-              rol: this.rol,
-              nombre: this.nombre,
-              tipo_documento: this.tipo_documento,
-              num_documento: this.num_documento,
-              direccion: this.direccion,
-              telefono: this.telefono,
+              role: this.role,
+              nome: this.nome,
               email: this.email,
               password: this.password,
             },
@@ -328,14 +259,10 @@ export default {
         //Código para guardar
         axios
           .post(
-            "usuario/add",
+            "usuarios/add",
             {
-              rol: this.rol,
-              nombre: this.nombre,
-              tipo_documento: this.tipo_documento,
-              num_documento: this.num_documento,
-              direccion: this.direccion,
-              telefono: this.telefono,
+              role: this.role,
+              nome: this.nome,
               email: this.email,
               password: this.password,
             },
@@ -353,12 +280,8 @@ export default {
     },
     editItem(item) {
       this._id = item._id;
-      this.rol = item.rol;
-      this.nombre = item.nombre;
-      this.tipo_documento = item.tipo_documento;
-      this.num_documento = item.num_documento;
-      this.direccion = item.direccion;
-      this.telefono = item.telefono;
+      this.role = item.role;
+      this.nome = item.nome;
       this.email = item.email;
       this.password = item.password;
       this.dialog = true;
@@ -384,7 +307,7 @@ export default {
       let header = { Token: this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .put("usuario/activate", { _id: this.adId }, configuracion)
+        .put("usuarios/activate", { _id: this.adId }, configuracion)
         .then(function(response) {
           me.adModal = 0;
           me.adAccion = 0;
@@ -401,7 +324,7 @@ export default {
       let header = { Token: this.$store.state.token };
       let configuracion = { headers: header };
       axios
-        .put("usuario/deactivate", { _id: this.adId }, configuracion)
+        .put("usuarios/deactivate", { _id: this.adId }, configuracion)
         .then(function(response) {
           me.adModal = 0;
           me.adAccion = 0;
@@ -415,6 +338,13 @@ export default {
     },
     close() {
       this.dialog = false;
+    },
+    exibirModalDel(item) {
+      this.adModalDel = 1;
+      this.adId = item._id;
+    },
+    fecharModalDel() {
+      this.adModalDel = 0;
     },
   },
 };
