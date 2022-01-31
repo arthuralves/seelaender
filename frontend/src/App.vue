@@ -1,6 +1,11 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer">
+    <v-navigation-drawer
+      fixed
+      :clipped="$vuetify.breakpoint.mdAndUp"
+      app
+      v-model="drawer"
+    >
       <v-list dense>
         <template>
           <v-list-tile :to="{ name: 'home' }">
@@ -25,7 +30,7 @@
                 <v-list-tile-title> Categorias </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ name: '' }">
+            <v-list-tile :to="{ name: 'produto' }">
               <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
@@ -97,9 +102,7 @@
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>
-                  Usuarios
-                </v-list-tile-title>
+                <v-list-tile-title> Usuarios </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
@@ -131,14 +134,26 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="blue darken-3" dark app :clipped-left="$vuetify.breakpoint.mdAndUp" fixed>
+    <v-toolbar
+      color="blue darken-3"
+      dark
+      app
+      :clipped-left="$vuetify.breakpoint.mdAndUp"
+      fixed
+    >
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar-side-icon
+          @click.stop="drawer = !drawer"
+        ></v-toolbar-side-icon>
         <span class="hidden-sm-and-down">Armazém do Teg</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn @click="logout()" icon v-if="logged"> <v-icon>logout</v-icon> Logout </v-btn>
-      <v-btn :to="{ name: 'login' }" icon v-else> <v-icon>login</v-icon> Login </v-btn>
+      <v-btn @click="logout()" icon v-if="logged">
+        <v-icon>logout</v-icon> Logout
+      </v-btn>
+      <v-btn :to="{ name: 'login' }" icon v-else>
+        <v-icon>login</v-icon> Login
+      </v-btn>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -175,13 +190,21 @@ export default {
       return this.$store.state.usuario;
     },
     isAdministrador() {
-      return this.$store.state.usuario && this.$store.state.usuario.role == "Administrador";
+      return (
+        this.$store.state.usuario &&
+        this.$store.state.usuario.role == "Administrador"
+      );
     },
     isEstoque() {
-      return this.$store.state.usuario && this.$store.state.usuario.role == "Estoque";
+      return (
+        this.$store.state.usuario && this.$store.state.usuario.role == "Estoque"
+      );
     },
     isVendedor() {
-      return this.$store.state.usuario && this.$store.state.usuario.role == "Vendedor";
+      return (
+        this.$store.state.usuario &&
+        this.$store.state.usuario.role == "Vendedor"
+      );
     },
   },
   created() {

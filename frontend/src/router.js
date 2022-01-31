@@ -5,6 +5,7 @@ import Home from "./views/Home.vue";
 import Categoria from "./components/Categoria.vue";
 import Login from "./components/Login.vue";
 import Usuario from "./components/Usuario.vue";
+import Produto from "./components/Produto.vue";
 
 Vue.use(Router);
 
@@ -47,6 +48,14 @@ var router = new Router({
         administrador: true,
       },
     },
+    {
+      path: "/produto",
+      name: "produto",
+      component: Produto,
+      meta: {
+        administrador: true,
+      },
+    }
   ],
 });
 router.beforeEach((to, from, next) => {
